@@ -1,0 +1,47 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        Console.Write("1. sayıyı girin: ");
+        int a = Convert.ToInt32(Console.ReadLine());
+
+        Console.Write("2. sayıyı girin: ");
+        int b = Convert.ToInt32(Console.ReadLine());
+
+        Console.Write("Seçimi giriniz (1-Toplama, 2-Çıkarma, 3-Çarpma ");
+        int secim = Convert.ToInt32(Console.ReadLine());
+
+        if (secim == 0 || secim == 4)
+        {
+            Console.WriteLine("İşlem Geçersiz");
+        }
+        else
+        {
+            hesapmak(secim, a, b);
+        }
+    }
+
+    static void hesapmak(int secim, int a, int b)
+    {
+        switch (secim)
+        {
+            case 1:
+                Console.WriteLine("Sonuç: " + (a + b));
+                break;
+
+            case 2:
+                Console.WriteLine("Sonuç: " + (a - b));
+                break;
+
+            case 3:
+                Console.WriteLine("Sonuç: " + (a * b));
+                break;
+
+            default:
+                Console.WriteLine("Geçersiz İşlem");
+                break;
+        }
+    }
+}
