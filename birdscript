@@ -1,0 +1,76 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+using TMPro;
+
+public class BirdScript : MonoBehaviour
+{
+
+    public float JumpForce;
+
+    Rigidbody2D rb;
+    public TextMeshProUGUI skor_text;
+    public float skor;
+
+    public float EkranBitisY = 10f; 
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        skor = 0;
+        // Oyunu başlatırken zamanı normal akışına geri getir
+        Time.timeScale = 1;
+
+        if (rb == null)
+        {
+            Debug.LogError("Rigidbody2D component not found on the GameObject!");
+        }
+    }
+
+    void Update()
+    {
+        // 1. Zıplama Kontrolü (Aynen kaldı)
+        if (Mouse.current != null)
+        {
+            if (Mouse.current.leftButton.wasPressedThisFrame)
+            {
+                rb.linearVelocity = Vector2.up * JumpForce;
+            }
+        }
+
+        // 2. Skor Text Güncelleme (Aynen kaldı)
+        if (skor_text != null)
+        {
+            skor_text.text = skor.ToString();
+        }
+        
+        if (transform.position.y > EkranBitisY || transform.position.y < -EkranBitisY)
+        {
+            GameOver(); 
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D temas)
+    {
+        if (temas.gameObject.tag == "Scorer")
+        {
+            skor++;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D temas)
+    {
+        if (temas.gameObject.CompareTag("Pipe") || temas.gameObject.CompareTag("Ground"))
+        {
+            GameOver();
+        }
+    }
+
+    private void GameOver()
+    {
+        rb.bodyType = RigidbodyType2D.Static; 
+        
+        Time.timeScale = 0; 
+        
+        Debug.Log("Oyun Bitti! Çarpışma veya Ekrandan Kaybolma.");
+    }
+}
